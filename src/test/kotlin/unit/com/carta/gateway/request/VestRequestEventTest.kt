@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
+import strikt.assertions.isNull
 import java.math.BigDecimal
 import java.math.MathContext
 import java.math.RoundingMode
@@ -44,5 +45,15 @@ class VestRequestEventTest {
                 )
             get { this?.precision }.isEqualTo(vestRequest.precision?.toInt())
         }
+    }
+
+    @Test
+    fun `should not convert a vest request to a vest object when the values are wrong`() {
+        val vestRequest = fixture<VestRequestEvent>() {
+            property(VestRequestEvent::date) { "invalid_date" }
+        }
+        val expectedVest = vestRequest.toVest(parser)
+
+        expectThat(expectedVest).isNull()
     }
 }

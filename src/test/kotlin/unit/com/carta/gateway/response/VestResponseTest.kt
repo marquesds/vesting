@@ -26,4 +26,15 @@ class VestResponseTest {
         }
     }
 
+    @Test
+    fun `should return a line with comma separated values representing a vest response`() {
+        val vestResponse = fixture<VestResponse>()
+
+        val vestResponseCSV = vestResponse.toString()
+        val expectedResponseCSV =
+            "${vestResponse.employeeId},${vestResponse.employeeName},${vestResponse.awardId},${vestResponse.quantity}"
+        expectThat(vestResponseCSV)
+            .isEqualTo(expectedResponseCSV)
+    }
+
 }

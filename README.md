@@ -28,7 +28,7 @@ $ docker run --mount type=bind,source=/home/lucas/Documents/vest_entries.csv,tar
 ```
 
 ## Executing tests (Gradle)
-All tests:
+All tests (with coverage verification):
 ```shell
 ./gradlew test
 ```
@@ -45,6 +45,7 @@ Integration tests:
 
 ## Design Decisions
 
+- This project has 91% of test coverage
 - I decided to use Kotlin as the programming language just because I'm working with it right now.
 - This project tries to follow the Uncle Bob's Clean Architecture principles
   - Allowing each layer to access only its subsequent (or sibling) layer would allow me to include other external layers in the future, like Web and Persistence.
@@ -69,3 +70,4 @@ To not overrun the time-box, I decided to keep the project as simple as I could.
 - Add some logs and profiling
 - Wrap the docker run with Makefile functions, since the command to use docker is a way big
 - Using git, I'd like to follow [this guideline](https://www.conventionalcommits.org/en/v1.0.0/) for semantic commit messages
+- Add a SonarQube to evaluate the quality of the code
