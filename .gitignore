@@ -3,6 +3,8 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 .mvn/
+.gradle/
+*.jar
 
 ### STS ###
 .apt_generated
