@@ -1,6 +1,26 @@
 # Vesting
 
+## Running (Make)
+Make sure you have the `JDK_11` installed.
+
+If you didn't it already, run the following command:
+```shell
+$ make bundle
+```
+
+And then:
+```shell
+$ make run file_path=<FILE_PATH> target_date=<TARGET_DATE> precision=<PRECISION>
+```
+
+Example:
+```shell
+$ make run file_path=/home/lucas/Documents/vest_entries.csv target_date=2020-04-01 precision=2
+```
+
 ## Running (Gradle)
+Make sure you have the `JDK_11` installed.
+
 Just execute the following command:
 ```shell
 $ ./gradlew --args="<FILE_PATH> <TARGET_DATE> <PRECISION>" -q
@@ -8,7 +28,7 @@ $ ./gradlew --args="<FILE_PATH> <TARGET_DATE> <PRECISION>" -q
 
 Example:
 ```shell
-$ ./gradlew --args="vest.csv 2020-01-01 3" -q
+$ ./gradlew --args="/home/lucas/Documents/vest_entries.csv 2020-01-01 3" -q
 ```
 
 ## Running (Docker)
@@ -59,6 +79,7 @@ Integration tests:
   - Specially the Single Responsibility Principle and Dependency Inversion Principle (all dependencies was set in the "terrible Main file")
   - I confess that I broke the Interface Segregation Principle on `FailFastVestRequestEventParser` class, but in this case I prefer to refactor it when the need arises (when there is other rules to validate the fields, for example)
 - The most of the libs added on `build.gradle` are related to tests. But I also included a lib to read csv files and avoid the need to dealing with extra boilerplate
+- I'm using `BigDecimal` for not losing the quantity precision
 - I'm using the `BufferedInputStream` to read chunks of bytes until 2Gb. This would allow the processing of larger files and save some memory
 - I've decided to not implement this software in an async way, since that opening a file would be the only "expensive" operation, and I'm reading just one file
 
@@ -75,3 +96,6 @@ To not overrun the time-box, I decided to keep the project as simple as I could.
 - Wrap the docker run with Makefile functions, since the command to use docker is a way big
 - Using git, I'd like to follow [this guideline](https://www.conventionalcommits.org/en/v1.0.0/) for semantic commit messages
 - Add a SonarQube to evaluate the quality of the code
+- Set a maximum value to JVM memory
+
+Thanks for sending me this test, I had a lot of fun doing it :)
