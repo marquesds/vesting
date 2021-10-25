@@ -1,6 +1,7 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.5.31'
     id 'application'
+    id 'java'
 }
 
 group 'com.carta'
@@ -33,6 +34,44 @@ tasks.test {
     }
 }
 
+tasks.register("unittest", Test) {
+    outputs.upToDateWhen { false }
+    useJUnitPlatform {
+        includeTags = ["unit"]
+        excludeTags = ["integration"]
+    }
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
+}
+
+tasks.register("integrationtest", Test) {
+    outputs.upToDateWhen { false }
+    useJUnitPlatform {
+        includeTags = ["integration"]
+        excludeTags = ["unit"]
+    }
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
+}
+
 application {
     mainClass.set("com.carta.MainKt")
+}
+
+tasks.register('uberJar', Jar) {
+    manifest {
+        attributes["Main-Class"] = "com.carta.MainKt"
+    }
+
+    archiveClassifier = 'uber'
+
+    from sourceSets.main.output
+
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+    }
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }

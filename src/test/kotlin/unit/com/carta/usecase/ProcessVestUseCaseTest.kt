@@ -10,6 +10,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import strikt.api.expectThat
 import strikt.assertions.hasSize
+import strikt.assertions.isEmpty
 import strikt.assertions.isEqualTo
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -403,5 +404,13 @@ class ProcessVestUseCaseTest {
 
         expectThat(expectedVests).hasSize(1)
         expectThat(expectedVests[0].quantity).isEqualTo(expectedQuantity)
+    }
+
+    @Test
+    fun `should return an empty list when no entries were given`() {
+        val vests = emptyList<Vest>()
+
+        val expectedVests = useCase.process(vests, defaultTargetDate)
+        expectThat(expectedVests).isEmpty()
     }
 }

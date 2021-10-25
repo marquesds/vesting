@@ -7,7 +7,7 @@ import com.carta.usecase.IProcessVestUseCase
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class VestFileFileCommand(
+class VestFileCommand(
     private val processVestUseCase: IProcessVestUseCase,
     private val fileHandler: IFileHandler,
     private val parser: IVestRequestEventParser

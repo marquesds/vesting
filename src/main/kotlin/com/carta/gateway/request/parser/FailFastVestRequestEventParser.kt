@@ -55,7 +55,9 @@ class FailFastVestRequestEventParser : IVestRequestEventParser {
 
     private fun parseQuantity(quantity: String): BigDecimal? {
         return try {
-            BigDecimal(quantity)
+            val parsedQuantity = BigDecimal(quantity)
+            if (parsedQuantity >= BigDecimal.ZERO) parsedQuantity
+            else null
         } catch (e: Exception) {
             null
         }

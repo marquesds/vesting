@@ -1,4 +1,0 @@
-ext.pathMapper = [:]
-ext.pathMapper.put("C:/Users/lucas/AppData/Local/JetBrains/Toolbox/apps/IDEA-U/ch-0/212.5284.40/lib/external-system-rt.jar", "/mnt/c/Users/lucas/AppData/Local/JetBrains/Toolbox/apps/IDEA-U/ch-0/212.5284.40/lib/external-system-rt.jar")
-ext.pathMapper.put("<<target java executable path>>", "/usr/lib/jvm/java-11-openjdk-amd64/bin/java")
-ext.mapPath = { path -> pathMapper.get(path) ?: path }

@@ -13,19 +13,21 @@ class ProcessVestUseCase() : IProcessVestUseCase {
         vests
             .map { setAwardGreaterThanTargetDateToZero(it, targetDate) }
             .groupBy { VestKey(it.employeeId, it.awardId) }
-            .toSortedMap(compareBy<VestKey> { it.employeeId }.thenBy { it.awardId })
+            .toSortedMap(orderByEmployeeIdAndAwardIdAsc())
             .map { it.value }
-            .map {
-                it.reduce { acc, vestEvent ->
-                    when (vestEvent.eventType) {
-                        EventType.CANCEL -> acc.copy(quantity = acc.decreaseQuantity(vestEvent.quantity))
-                        else -> acc.copy(quantity = acc.quantity + vestEvent.quantity)
-                    }
-                }
-            }
+            .map { it.reduce { acc, vestEvent -> changeQuantity(acc, vestEvent) } }
 
     private fun setAwardGreaterThanTargetDateToZero(vest: Vest, targetDate: LocalDate): Vest {
         return if (vest.date <= targetDate) vest
         else vest.copy(quantity = BigDecimal.ZERO)
     }
+
+    private fun orderByEmployeeIdAndAwardIdAsc() =
+        compareBy<VestKey> { it.employeeId }.thenBy { it.awardId }
+
+    private fun changeQuantity(acc: Vest, vestEvent: Vest): Vest =
+        when (vestEvent.eventType) {
+            EventType.CANCEL -> acc.copy(quantity = acc.decreaseQuantity(vestEvent.quantity))
+            else -> acc.copy(quantity = acc.quantity + vestEvent.quantity)
+        }
 }
