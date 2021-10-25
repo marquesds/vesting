@@ -46,7 +46,7 @@ Integration tests:
 ## Design Decisions
 
 - This project has 91% of test coverage
-- I decided to use Kotlin as the programming language just because I'm working with it right now.
+- I decided to use Kotlin as the programming language just because I'm working with it right now and I like strong typed languages :P
 - This project tries to follow the Uncle Bob's Clean Architecture principles
   - Allowing each layer to access only its subsequent (or sibling) layer would allow me to include other external layers in the future, like Web and Persistence.
   - Also, the "screaming architecture" helps other people to understand what each layer does. 
@@ -54,6 +54,10 @@ Integration tests:
   - I'm using only immutable data structures
   - Most of the functions are referentially transparent
   - This decision would allow me to avoid some mutable errors; also if I want to do some parallel programming I'd not have to deal with race condition and some other problems
+  - I'm avoiding side effects (I'm using them just at the infra and Main level)
+- SOLID principles
+  - Specially the Single Responsibility Principle and Dependency Inversion Principle (all dependencies was set in the "terrible Main file")
+  - I confess that I broke the Interface Segregation Principle on `FailFastVestRequestEventParser` class, but in this case I prefer to refactor it when the need arises (when there is other rules to validate the fields, for example)
 - The most of the libs added on `build.gradle` are related to tests. But I also included a lib to read csv files and avoid the need to dealing with extra boilerplate
 - I'm using the `BufferedInputStream` to read chunks of bytes until 2Gb. This would allow the processing of larger files and save some memory
 - I've decided to not implement this software in an async way, since that opening a file would be the only "expensive" operation, and I'm reading just one file
