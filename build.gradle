@@ -1,0 +1,38 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.5.31'
+    id 'application'
+}
+
+group 'com.carta'
+version '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("org.jetbrains.kotlin:kotlin-stdlib")
+    implementation("com.github.doyaaaaaken:kotlin-csv-jvm:1.1.0")
+    implementation("log4j:log4j:1.2.17")
+    implementation("org.apache.logging.log4j:log4j-slf4j-impl:2.14.1")
+    testImplementation(platform("org.junit:junit-bom:5.8.1"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("io.strikt:strikt-core:0.31.0")
+    testImplementation("com.appmattus.fixture:fixture:1.2.0")
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+tasks.test {
+    useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
+}
+
+application {
+    mainClass.set("com.carta.MainKt")
+}
