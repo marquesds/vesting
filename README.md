@@ -68,3 +68,4 @@ To not overrun the time-box, I decided to keep the project as simple as I could.
 - The ability to process multiple files in an asynchronous way (including the events into a Queue)
 - Add some logs and profiling
 - Wrap the docker run with Makefile functions, since the command to use docker is a way big
+- Using git, I'd like to follow [this guideline](https://www.conventionalcommits.org/en/v1.0.0/) for semantic commit messages
