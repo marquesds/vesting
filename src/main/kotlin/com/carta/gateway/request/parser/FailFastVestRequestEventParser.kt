@@ -3,19 +3,20 @@ package com.carta.gateway.request.parser
 import com.carta.entity.EventType
 import com.carta.entity.Vest
 import com.carta.gateway.request.VestRequestEvent
+import com.carta.gateway.request.parser.field.EventTypeParser
+import com.carta.gateway.request.parser.field.PrecisionParser
+import com.carta.gateway.request.parser.field.QuantityParser
+import com.carta.shared.extensions.BigDecimalExtension.withPrecision
+import com.carta.shared.extensions.LocalDateExtension
 import java.math.BigDecimal
-import java.math.MathContext
-import java.math.RoundingMode
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 class FailFastVestRequestEventParser : IVestRequestEventParser {
     override fun parse(event: VestRequestEvent): Vest? {
-        val eventType: EventType = parseEventType(event.eventType) ?: return null
-        val date: LocalDate = parseDate(event.date) ?: return null
-        val precision: Int = event.precision?.let { parsePrecision(it) } ?: return null
-        val quantity: BigDecimal = parseQuantity(event.quantity)
-            ?.round(MathContext(precision, RoundingMode.HALF_DOWN)) ?: return null
+        val eventType: EventType = EventTypeParser.parse(event.eventType) ?: return null
+        val date: LocalDate = LocalDateExtension.fromIsoDateString(event.date) ?: return null
+        val precision: Int = event.precision?.let { PrecisionParser.parse(event.precision) } ?: return null
+        val quantity: BigDecimal = QuantityParser.parse(event.quantity)?.withPrecision(precision) ?: return null
 
         return Vest(
             eventType,
@@ -26,40 +27,5 @@ class FailFastVestRequestEventParser : IVestRequestEventParser {
             quantity,
             precision
         )
-    }
-
-    private fun parseEventType(eventType: String): EventType? {
-        return if (eventType in listOf(
-                EventType.VEST.toString(),
-                EventType.CANCEL.toString()
-            )
-        ) EventType.valueOf(eventType)
-        else null
-    }
-
-    private fun parseDate(date: String): LocalDate? {
-        return try {
-            LocalDate.parse(date, DateTimeFormatter.ISO_DATE)
-        } catch (e: Exception) {
-            null
-        }
-    }
-
-    private fun parsePrecision(precision: String): Int? {
-        val parsedPrecision = precision.toIntOrNull()
-        return if (parsedPrecision != null) {
-            if (parsedPrecision < 0 || parsedPrecision > 6) null
-            else parsedPrecision
-        } else null
-    }
-
-    private fun parseQuantity(quantity: String): BigDecimal? {
-        return try {
-            val parsedQuantity = BigDecimal(quantity)
-            if (parsedQuantity >= BigDecimal.ZERO) parsedQuantity
-            else null
-        } catch (e: Exception) {
-            null
-        }
     }
 }
