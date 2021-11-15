@@ -21,4 +21,9 @@ data class Vest(
             quantity - cancelQuantity <= BigDecimal.ZERO -> BigDecimal.ZERO
             else -> quantity - cancelQuantity
         }
+
+    fun setAwardGreaterThanTargetDateToZero(targetDate: LocalDate): Vest {
+        return if (date <= targetDate) this
+        else this.copy(quantity = BigDecimal.ZERO)
+    }
 }
