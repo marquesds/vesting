@@ -1,7 +1,7 @@
 package unit.com.carta.shared.extension
 
-import com.carta.shared.extensions.BigDecimalExtension.toString
-import com.carta.shared.extensions.BigDecimalExtension.withPrecision
+import com.carta.shared.extension.BigDecimalExtension.toString
+import com.carta.shared.extension.BigDecimalExtension.withPrecision
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat

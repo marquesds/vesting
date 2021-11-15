@@ -1,6 +1,6 @@
 package unit.com.carta.shared.extension
 
-import com.carta.shared.extensions.LocalDateExtension
+import com.carta.shared.extension.StringExtension.toLocalDate
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
@@ -9,13 +9,13 @@ import strikt.assertions.isNull
 import java.time.LocalDate
 
 @Tag("unit")
-class LocalDateExtensionTest {
+class StringExtensionTest {
 
     @Test
     fun `should parse an iso date string`() {
         val validIsoDate = "2021-10-01"
 
-        expectThat(LocalDateExtension.fromIsoDateString(validIsoDate))
+        expectThat(validIsoDate.toLocalDate())
             .isEqualTo(LocalDate.of(2021, 10, 1))
     }
 
@@ -23,6 +23,6 @@ class LocalDateExtensionTest {
     fun `should return null when the iso date is invalid`() {
         val invalidIsoDate = "2021-13-01"
 
-        expectThat(LocalDateExtension.fromIsoDateString(invalidIsoDate)).isNull()
+        expectThat(invalidIsoDate.toLocalDate()).isNull()
     }
 }

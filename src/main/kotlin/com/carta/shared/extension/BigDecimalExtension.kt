@@ -1,4 +1,4 @@
-package com.carta.shared.extensions
+package com.carta.shared.extension
 
 import java.math.BigDecimal
 import java.math.MathContext
