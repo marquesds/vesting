@@ -52,6 +52,7 @@ tasks.jacocoTestReport {
         classDirectories.setFrom(files(classDirectories.files.collect {
             fileTree(dir: it, exclude: [
                     "com/carta/MainKt.class",
+                    "com/carta/shared/type/Either.class",
                     "**/resources/*"
             ])
         }))

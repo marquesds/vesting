@@ -23,12 +23,12 @@ Make sure you have the `JDK_11` installed.
 
 Just execute the following command:
 ```shell
-$ ./gradlew --args="<FILE_PATH> <TARGET_DATE> <PRECISION>" -q
+$ ./gradlew run --args="<FILE_PATH> <TARGET_DATE> <PRECISION>" -q
 ```
 
 Example:
 ```shell
-$ ./gradlew --args="/home/lucas/Documents/vest_entries.csv 2020-01-01 3" -q
+$ ./gradlew run --args="/home/lucas/Documents/vest_entries.csv 2020-01-01 3" -q
 ```
 
 ## Running (Docker)
